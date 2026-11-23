@@ -1,0 +1,181 @@
+---
+// Easter egg: a tiny shell. Opens from the >_ button in the header or the ` key.
+import Icon from './Icon.astro';
+import { projects } from '../data/projects.js';
+import { journey } from '../data/journey.js';
+import { profiles } from '../data/skills.js';
+const data = {
+  projects: projects.map(({ slug, name, kind, summary, stamp, stack, link }) => ({ slug, name, kind, summary, stamp, stack, link })),
+  journey: journey.map(({ when, what, where }) => ({ when, what, where })),
+  profiles: profiles.map(({ label, href }) => ({ label, href })),
+};
+---
+<button class="term-toggle" type="button" aria-label="Open the terminal" title="Open the terminal ( ` )"><Icon name="bi-terminal" /></button>
+<dialog class="term" aria-label="Terminal">
+  <div class="term-bar">
+    <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span>adam@portfolio: ~</span>
+    <form method="dialog"><button class="term-close" aria-label="Close the terminal">esc</button></form>
+  </div>
+  <div class="term-out" role="log" aria-live="polite"></div>
+  <form class="term-form">
+    <label class="term-prompt" for="term-input">adam@portfolio:~$</label>
+    <input id="term-input" class="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" />
+  </form>
+</dialog>
+<script type="application/json" id="term-data" set:html={JSON.stringify(data)} />
+
+<script>
+  type Part = string | { text: string; href: string; download?: boolean };
+  const { projects, journey, profiles } = JSON.parse(document.getElementById('term-data')!.textContent!);
+  const dialog = document.querySelector<HTMLDialogElement>('.term')!;
+  const out = dialog.querySelector<HTMLElement>('.term-out')!;
+  const form = dialog.querySelector<HTMLFormElement>('.term-form')!;
+  const input = dialog.querySelector<HTMLInputElement>('.term-input')!;
+  const history: string[] = [];
+  let back = 0;
+
+  const print = (...lines: Part[][]) => lines.forEach(parts => {
+    const row = document.createElement('div');
+    parts.forEach(p => {
+      if (typeof p === 'string') return row.append(p);
+      const a = Object.assign(document.createElement('a'), { href: p.href, textContent: p.text });
+      if (p.download) a.download = '';
+      else if (p.href.startsWith('http')) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+      row.append(a);
+    });
+    out.append(row);
+  });
+  const say = (text: string) => print(...text.split('\n').map(l => [l]));
+  const pad = (s: string, n: number) => s.padEnd(n);
+  const go = (href: string, label: string) => { say(`Opening ${label}...`); setTimeout(() => { location.href = href; }, 450); };
+  const pick = () => projects[Math.floor(Math.random() * projects.length)];
+  const theme = (want?: string) => {
+    const now = document.documentElement.dataset.theme;
+    if (want && want !== 'dark' && want !== 'light') return say('usage: theme [dark|light]');
+    if (want === now) return say(`Already ${now}. Living the ${now} life.`);
+    document.querySelector<HTMLButtonElement>('.theme-toggle')?.click();
+    say(`Theme set to ${now === 'dark' ? 'light' : 'dark'}.`);
+  };
+
+  const commands: Record<string, (args: string[]) => void> = {
+    help: () => say([
+      'Things you can type:',
+      '  ls, ls projects     what is in here',
+      '  open <project>      read a case study (try: open bokkeh)',
+      '  cat about.md        the short version of me',
+      '  git log             my journey, as commits',
+      '  docker ps           projects, as running containers',
+      '  neofetch            system info, sort of',
+      '  whoami, random, resume, theme [dark|light], clear, exit',
+      '  sudo hire-me        you know you want to',
+    ].join('\n')),
+    ls: ([dir]) => dir?.startsWith('projects')
+      ? print(...projects.map((p: any) => [`${pad(p.slug + '/', 22)}${p.name}`]))
+      : say('projects/   about.md   journey.log   resume.pdf'),
+    open: ([slug]) => {
+      const p = projects.find((p: any) => p.slug === slug?.replace(/^projects\//, '').replace(/\/$/, ''));
+      if (p) return go(`/work/${p.slug}/`, p.name);
+      say(slug ? `open: no project called "${slug}". Try ls projects.` : 'usage: open <project>. Try ls projects.');
+    },
+    cd: ([dir]) => dir ? commands.open([dir]) : say('You are already home.'),
+    cat: ([file]) => {
+      if (file === 'about.md') return say([
+        '# Adam Idris',
+        'Full-stack dev in Johor, Malaysia.',
+        'Day job: ERP systems at WinWin Food Industries.',
+        'Side projects: Bokkeh, MomenLoka, DriveBoard, Little Things.',
+        'Levelling up in: DevOps and AI agents for real companies.',
+      ].join('\n'));
+      if (file === 'journey.log') return commands['git']!(['log']);
+      if (file === 'resume.pdf') return say('That is a PDF. Your terminal is not ready for that. Try: resume');
+      say(file ? `cat: ${file}: No such file. Try ls.` : 'usage: cat <file>');
+    },
+    git: ([sub]) => {
+      if (sub !== 'log') return say('Only "git log" works here. I keep the rest of git for work.');
+      print(...[...journey].reverse().flatMap((j: any, i: number) => [
+        [{ text: `commit ${(0x5eed + i * 0x1f3d).toString(16).padStart(7, '0')}`, href: '/#journey' }, i === 0 ? '  (HEAD -> main)' : ''],
+        [`Date:  ${j.when}`],
+        [`    ${j.what}, ${j.where}`],
+        [''],
+      ]));
+    },
+    docker: ([sub]) => {
+      if (sub !== 'ps') return say('Only "docker ps" is wired up. Everything else is a different portfolio.');
+      print([`${pad('NAME', 22)}${pad('STATUS', 14)}IMAGE`], ...projects.map((p: any) => [`${pad(p.slug, 22)}${pad(p.stamp, 14)}${p.stack.split(' · ')[0].toLowerCase()}`]));
+    },
+    neofetch: () => say([
+      '   ___      adam@portfolio',
+      '  / _ \\     --------------',
+      ' | (_) |    OS: Astro 5 (static)',
+      '  \\__,_|    Host: Cloudflare Pages',
+      '            Shell: portfolio-sh',
+      `            Projects: ${projects.length} + 17 more from WinWin`,
+      '            Location: Johor, Malaysia',
+      `            Theme: ${document.documentElement.dataset.theme}`,
+      '            Uptime: coding since 2020',
+    ].join('\n')),
+    whoami: () => say('adam. full-stack dev. currently pointing myself at DevOps and AI agents.'),
+    random: () => { const p = pick(); go(`/work/${p.slug}/`, `${p.name}. Good pick`); },
+    resume: () => print(['Here you go: ', { text: 'Adam_Idris_Resume_2026.pdf', href: '/Adam_Idris_Resume_2026.pdf', download: true }]),
+    theme: ([want]) => theme(want),
+    sudo: args => {
+      if (args.join(' ') !== 'hire-me') return say(`${args[0] ?? 'sudo'}: nice try. This incident will be reported.`);
+      print(['[sudo] password for recruiter: ********'], ['Access granted. Here is how to reach me:'],
+        ...profiles.map((p: any) => ['  ', { text: p.label, href: p.href }]),
+        ['  ', { text: 'resume.pdf', href: '/Adam_Idris_Resume_2026.pdf', download: true }]);
+    },
+    echo: args => say(args.join(' ')),
+    pwd: () => say('/home/adam/portfolio'),
+    date: () => say(new Date().toString()),
+    rm: () => say('Permission denied. Also, rude.'),
+    vim: () => say('You are now stuck in vim forever. Kidding. Type exit.'),
+    exit: () => dialog.close(),
+    clear: () => out.replaceChildren(),
+  };
+  const words = [...Object.keys(commands), 'projects', 'about.md', 'journey.log', 'hire-me', 'log', 'ps', 'dark', 'light', ...projects.map((p: any) => p.slug)];
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const line = input.value.trim();
+    input.value = '';
+    print([`$ ${line}`]);
+    if (!line) return;
+    history.push(line); back = 0;
+    const [name, ...args] = line.split(/\s+/);
+    const run = commands[name.toLowerCase()];
+    run ? run(args) : say(`${name}: command not found. Try help.`);
+    out.scrollTop = out.scrollHeight;
+  });
+  input.addEventListener('keydown', event => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      back = Math.max(0, Math.min(history.length, back + (event.key === 'ArrowUp' ? 1 : -1)));
+      input.value = back ? history[history.length - back] : '';
+    }
+    if (event.key === 'Tab') {
+      const parts = input.value.split(' ');
+      const last = parts.pop()!;
+      const match = last && words.filter(w => w.startsWith(last));
+      if (!match?.length) return;
+      event.preventDefault();
+      input.value = [...parts, match.length === 1 ? match[0] + ' ' : last].join(' ');
+      if (match.length > 1) say(match.join('   '));
+    }
+  });
+
+  const open = () => {
+    if (dialog.open) return;
+    if (!out.childElementCount) say('Welcome to adam’s shell. Type help to look around. Esc closes it.');
+    dialog.showModal();
+    input.focus();
+  };
+  document.querySelector('.term-toggle')!.addEventListener('click', open);
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); else if (!(event.target as Element).closest('a, button')) input.focus(); });
+  document.addEventListener('keydown', event => {
+    if (event.key !== '`' || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]')) return;
+    event.preventDefault();
+    open();
+  });
+</script>

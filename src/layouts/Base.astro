@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-const { title = 'Adam Idris — Software for everyday work', description = 'Full-stack product engineer in Johor, Malaysia. Selected operational systems and independent products by Adam Idris.' } = Astro.props;
+import Terminal from '../components/Terminal.astro';
+const { title = 'Adam Idris — Software for everyday work', description = 'Full-stack product engineer in Johor, Malaysia. Selected operational systems and independent products by Adam Idris.', sound = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -27,6 +28,13 @@ const { title = 'Adam Idris — Software for everyday work', description = 'Full
     <header class="site-header wrap">
       <a class="wordmark" href="/">Adam Idris<span aria-hidden="true">.</span></a>
       <nav aria-label="Site">
+        {sound && (
+          <button class="sound-toggle" type="button" aria-label="Page-turn sound" aria-pressed="false" title="Page-turn sound">
+            <span class="sound-icon sound-off"><Icon name="bi-volume-mute" /></span>
+            <span class="sound-icon sound-on"><Icon name="bi-volume-up" /></span>
+          </button>
+        )}
+        <Terminal />
         <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
           <span class="theme-icon theme-icon-moon"><Icon name="bi-moon-stars" /></span>
           <span class="theme-icon theme-icon-sun"><Icon name="bi-sun" /></span>
@@ -35,7 +43,7 @@ const { title = 'Adam Idris — Software for everyday work', description = 'Full
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap">
-      <p>Built for the everyday.</p>
+      <p>Thanks for stopping by.</p>
       <span>Adam Idris · Johor, Malaysia</span>
       <span class="footer-links">
         <a class="icon-link" href="https://github.com/damderis" target="_blank" rel="noopener noreferrer"><Icon name="bi-github" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
@@ -76,6 +84,54 @@ const { title = 'Adam Idris — Software for everyday work', description = 'Full
         });
         transition.finished.finally(() => { delete root.dataset.themeSwitch; });
       });
+
+      // Page-turn sound, off by default. A paper flick made from filtered noise, so there is no audio file to load.
+      const soundToggle = document.querySelector<HTMLButtonElement>('.sound-toggle');
+      if (soundToggle) {
+        let on = false, ctx: AudioContext | undefined;
+        try { on = localStorage.getItem('sound') === 'on'; } catch {}
+        const show = () => soundToggle.setAttribute('aria-pressed', String(on));
+        show();
+        soundToggle.addEventListener('click', () => {
+          on = !on; show();
+          try { localStorage.setItem('sound', on ? 'on' : 'off'); } catch {}
+          if (on) flick();
+        });
+        const flick = () => {
+          ctx ??= new AudioContext();
+          const t = ctx.currentTime, length = Math.floor(ctx.sampleRate * .32);
+          const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < length; i++) { const x = i / length; data[i] = (Math.random() * 2 - 1) * Math.min(1, x / .06) * (1 - x) ** 2; }
+          const noise = new AudioBufferSourceNode(ctx, { buffer });
+          const filter = new BiquadFilterNode(ctx, { type: 'bandpass', Q: .7 });
+          filter.frequency.setValueAtTime(3800, t);
+          filter.frequency.exponentialRampToValueAtTime(900, t + .3);
+          const gain = new GainNode(ctx, { gain: .35 });
+          noise.connect(filter).connect(gain).connect(ctx.destination);
+          noise.start(t);
+        };
+        // Stamp landing: a short low thump plus a muffled slap.
+        const thud = () => {
+          ctx ??= new AudioContext();
+          const t = ctx.currentTime;
+          const body = new OscillatorNode(ctx, { type: 'sine', frequency: 140 });
+          body.frequency.exponentialRampToValueAtTime(55, t + .12);
+          const bodyGain = new GainNode(ctx, { gain: .6 });
+          bodyGain.gain.exponentialRampToValueAtTime(.001, t + .16);
+          body.connect(bodyGain).connect(ctx.destination);
+          body.start(t); body.stop(t + .18);
+          const length = Math.floor(ctx.sampleRate * .06);
+          const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / length) ** 3;
+          const slap = new AudioBufferSourceNode(ctx, { buffer });
+          slap.connect(new BiquadFilterNode(ctx, { type: 'lowpass', frequency: 900 })).connect(new GainNode(ctx, { gain: .5 })).connect(ctx.destination);
+          slap.start(t);
+        };
+        document.addEventListener('page-turn', () => { if (on) flick(); });
+        document.addEventListener('stamp', () => { if (on) thud(); });
+      }
     </script>
   </body>
 </html>

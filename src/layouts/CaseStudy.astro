@@ -34,6 +34,7 @@ const phonesFirst = !figures.length && gallery.length > 0 && gallery.every(g => 
       <a class="back-link" href={`/#page-${project.slug}`}><span aria-hidden="true">←</span> Back to {project.name} in the workbook</a>
       <header class="case-header">
         <p class="eyebrow">{project.number} / {project.kind}</p>
+        {project.stamp && <span class="stamp case-stamp" data-stamp={project.stamp.toLowerCase().replace(/ /g, '-')}>{project.stamp}</span>}
         <h1>{project.name}</h1>
         <p class="case-deck">{project.summary}</p>
         <dl class="case-meta">

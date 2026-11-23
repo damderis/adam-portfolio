@@ -18,11 +18,11 @@ gallery:
   - "The companion phone app: live board preview, prayer zone, background picture and colour source."
 ---
 
-## An interface around a routine
+## A dashboard for my own drive
 
-DriveBoard is a personal Android Auto project exploring a dashboard shaped around media, weather, prayer times and Quran content. It combines configurable layouts with glass-style widgets over a wallpaper and a Material 3 Expressive visual direction.
+DriveBoard is an Android Auto screen I built for my own car. It shows music, weather, prayer times and Quran content in layouts I can rearrange, with glass-style widgets over a wallpaper and a Material 3 Expressive look.
 
-Unlike a general web application, this project works within the constraints of an automotive interface. The arrangement of information, the size of controls and the relationship between the phone and the head unit all influence the design.
+A car screen is a different beast from a web app. Where things sit, how big the buttons are and how the phone talks to the head unit all decide what works while you drive.
 
 ## The dashboard as a composition
 

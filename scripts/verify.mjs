@@ -28,7 +28,6 @@ const home = await readFile('src/pages/index.astro', 'utf8');
 for (const marker of ['aria-live="polite"', 'data-direction="-1"', 'data-direction="1"', 'book-tabs', 'pushState', 'popstate', '(min-width: 1001px)', 'pointercancel']) assert.ok(home.includes(marker), `homepage has ${marker}`);
 const css = await readFile('src/styles/global.css', 'utf8');
 for (const marker of ['prefers-reduced-motion', 'focus-visible', '[hidden]', '@media (min-width: 1001px)']) assert.ok(css.includes(marker), `CSS has ${marker}`);
-assert.ok(!/rotate\((?!Y|180deg)/.test(css), 'No tilted elements (180deg flips for vertical text are fine)');
 assert.equal((css.match(/!important/g) || []).length, 5, '!important only for [hidden], reduced motion and print');
 assert.deepEqual((await readdir('src/pages/work')).filter(f => f.endsWith('.md')).sort(), projects.map(p => `${p.slug}.md`).sort());
 

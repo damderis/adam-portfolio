@@ -15,6 +15,11 @@ I'm a full-stack developer in Johor, Malaysia. I build ERP systems at WinWin Foo
 - **Desktop layout (1001px and wider).** The site is a book with 3D page turns. It opens from a cover, has fore-edge tabs, Previous/Next controls and arrow keys, and ends with a back cover holding a timeline. Each spread updates the URL, so Back works and any spread can be deep-linked.
 - **Phones, tablets and no JavaScript.** One scrolling page with a sticky header and a floating contents menu. On phones, a pull-out drawer on the right edge shows each project's phone UI (swipeable for apps with several screens).
 - **25 case studies.** 8 main projects, plus 17 ERP systems under [More from WinWin](https://adamidris.pages.dev/work/winwin/). Employer work is described in words and flow diagrams only. No internal screens, names, hosts or amounts.
+- **Playful extras.** These include:
+  - rubber stamps, tape and handwritten scribbles on the project pages
+  - a terminal easter egg: press <kbd>`</kbd> or click `>_`, then try `help`, `git log`, `docker ps` or `sudo hire-me`
+  - a bookmark ribbon that opens a random project, and confetti on the back cover
+  - optional page-turn and stamp sounds, generated with Web Audio, so there are no audio files
 - **Dark mode** with a circular reveal (View Transitions API).
 - **Accessibility:** a live region announces page turns, and hidden faces are made inert. Reduced motion turns off animation, and all text is at least 12px.
 
@@ -50,10 +55,10 @@ npm run build      # static site in dist/
 ```sh
 npm run build && npx astro preview --host 127.0.0.1 --port 4321
 VERIFY_URL=http://127.0.0.1:4321 npm run verify         # content and privacy checks, every route and asset returns 200
-VERIFY_URL=http://127.0.0.1:4321 npm run check:browser  # Playwright at 7 viewport sizes
+VERIFY_URL=http://127.0.0.1:4321 npm run check:browser  # Playwright at 9 viewport sizes
 ```
 
-`check:browser` needs Playwright; set `PLAYWRIGHT_MODULE` to its `index.mjs` if it isn't installed in the usual place. It runs at seven sizes from 320×640 to 1440×900. At each size it checks:
+`check:browser` needs Playwright; set `PLAYWRIGHT_MODULE` to its `index.mjs` if it isn't installed in the usual place. It runs at nine sizes from 320×640 to 1536×864. At each size it checks:
 
 - no horizontal scroll, one `h1`, every image loaded, no text under 12px
 - on desktop: every spread fits on screen, tabs, keys, Back, deep links, and the switch back to the phone layout when the window is resized

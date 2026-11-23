@@ -45,7 +45,7 @@ const common = async (page, label) => {
 try {
   if (process.argv.includes('--capture')) await import('./capture-products.mjs');
   if (process.argv.includes('--capture-only')) process.exit(0);
-  for (const [width, height] of [[320, 640], [390, 844], [768, 1024], [1024, 768], [1280, 720], [1366, 650], [1440, 900]]) {
+  for (const [width, height] of [[320, 640], [390, 844], [768, 1024], [1024, 768], [1280, 720], [1280, 800], [1366, 650], [1440, 900], [1536, 864]]) {
     const context = await browser.newContext({ viewport: { width, height } });
     const page = await context.newPage();
     const errors = [];

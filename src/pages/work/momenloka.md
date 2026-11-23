@@ -14,9 +14,9 @@ caption: MomenLoka’s public invitation experience, captured from the real prod
 
 ## An invitation with a job to do
 
-A digital invitation needs to feel personal, but it also has to communicate the event and help a host organise responses. MomenLoka combines an online invitation builder with templates and RSVP, alongside a photobooth service for weddings and events.
+A digital invite should feel personal. It also has to tell guests where and when, and help the host keep track of who’s coming. MomenLoka does that with an invitation builder, templates and RSVP, plus a photobooth service for weddings and events.
 
-The project joins a consumer-facing website, an editing experience and a visual identity. Each has a different job: introduce the offer, help someone make an invitation, and give the result a consistent character.
+It has three parts, each with its own job. The website explains the offer. The editor is where someone actually makes their invite. The visual identity keeps the whole thing looking like one product.
 
 ## Making room for the invitation
 

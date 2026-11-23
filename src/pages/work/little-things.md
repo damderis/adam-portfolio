@@ -18,9 +18,9 @@ gallery:
 
 ## A diary made of cutouts
 
-Little Things is a mobile scrapbook diary built around four verbs: notice, capture, cut and keep. A photo or short clip becomes a cutout on a paper page, with a caption, a place and a date. Pages build into a chronological diary, a daily collage and a searchable collection.
+Little Things is a scrapbook diary for your phone, built around four verbs: notice, capture, cut and keep. A photo or short clip turns into a cutout on a paper page, with a caption, a place and a date. The pages add up to a diary, a daily collage and a collection you can search.
 
-The app is built with Expo, React Native and TypeScript, using Expo Router for navigation and SQLite for metadata. Original captures, cutouts and the flattened scrapbook image are stored separately, so an edit never destroys the original.
+It’s built with Expo, React Native and TypeScript, with Expo Router for navigation and SQLite for metadata. The original capture, the cutout and the finished page are saved separately, so editing never wrecks the original.
 
 ## Lifting an object on the device
 

@@ -14,9 +14,9 @@ context: WinWin Food Industries Sdn Bhd, an F&B manufacturer and distributor in 
 
 ## The plan has to reach the driver
 
-Dispatch planning and delivery capture are two views of the same working day. Office teams need to assign orders, returns and collections to vehicles. Drivers need a mobile view of their trips and a way to record what happened at each stop.
+Planning deliveries and recording them are two halves of the same day. The office assigns orders, returns and collections to vehicles. Drivers need to see their trips on a phone and log what happened at each stop, signal or no signal.
 
-This work connects a delivery planning interface with extensions to a mobile driver application inside an existing Frappe and ERPNext environment. The system serves an F&B manufacturer and distributor in Malaysia.
+I connected a delivery planning screen to the mobile driver app the company already had, and extended that app, all inside its existing Frappe and ERPNext setup. The company is an F&B manufacturer and distributor in Malaysia.
 
 ## A shared dispatch view
 

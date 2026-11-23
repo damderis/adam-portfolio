@@ -13,9 +13,9 @@ context: Freelance via Treom Tech · Nuxt 4 management portal · Oct–Dec 2026
 
 ## What the portal is for
 
-AM Johor is a Malay-language staff portal for a state-level programme that works with council members (Ahli Majlis) across Johor's local authorities. Council members record their field activity, and programme staff use the portal to follow that activity, review it and understand performance across the state.
+AM Johor is a Malay-language staff portal for a state programme that works with council members, the Ahli Majlis, across Johor's local authorities. Council members log their field activity. Programme staff use the portal to follow it, review it and see how things are going across the state.
 
-Different staff roles see different things. Reviewers work through the activity in their area, while executives look at the bigger picture across local authorities and the state as a whole.
+Each staff role sees something different. Reviewers work through the activity in their own area. Executives get the big picture across local authorities and the whole state.
 
 ## What I built
 

@@ -13,9 +13,9 @@ context: WinWin Food Industries Sdn Bhd, an F&B manufacturer and distributor in 
 
 ## Orders change. Plans need boundaries.
 
-A production plan depends on the details of a sales order: the selected bill of materials, the packing requirements and the quantity being made. A snapshot helps preserve what was planned, but it can also become stale when an order changes.
+A production plan leans on details from the sales order: which bill of materials, which packing rules, how many units. Taking a snapshot keeps a record of what was planned. The catch is that the snapshot goes stale as soon as someone edits the order.
 
-This work extends a manufacturing planner in Frappe and ERPNext for an F&B manufacturer and distributor in Malaysia. It focuses on keeping related records consistent while protecting plans that have already moved into work in progress.
+I extended a manufacturing planner in Frappe and ERPNext for an F&B manufacturer and distributor in Malaysia. The goal was to keep related records in sync without touching plans that already have work in progress.
 
 ## Synchronising the bill of materials
 

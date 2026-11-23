@@ -12,11 +12,11 @@ context: Independent photography platform
 caption: A real view of Bokkeh’s public product experience.
 ---
 
-## One place around the booking
+## One place for the whole booking
 
-A photographer’s work is visual, but arranging a session involves much more than a portfolio. A prospective client needs to understand the offer, make a booking and pay. After the session, the photographer needs a way to deliver the gallery.
+Photographers sell with pictures, but booking one takes a lot more than a nice portfolio. The client has to understand what’s on offer, pick a slot and pay. After the shoot, the photographer still has to get the gallery to them somehow.
 
-Bokkeh brings those connected tasks into a platform for photographers and studios. It combines vendor portfolio pages, a booking flow, payment integration and client galleries. The product work spans both the public experience that introduces a vendor and the tools supporting the booking behind it.
+Bokkeh puts all of that in one product for photographers and studios: portfolio pages, a booking flow, payments and client galleries. I worked on both sides of it, the public pages that sell a vendor and the tools that run the booking behind them.
 
 ## The product takes a wider view
 

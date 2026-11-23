@@ -12,9 +12,9 @@ context: Freelance · AI Fiqh (FiqhTech)
 caption: The AI Fiqh chat, signed out.
 ---
 
-## The problem
+## What it is
 
-AI Fiqh is a web app for exploring Islamic knowledge. Users chat with an AI, browse a digital library of classical texts, organise conversations into collections and pay for plans. Each answer needs to show where it came from, so the interface has to handle more than plain text.
+AI Fiqh is a web app for exploring Islamic knowledge. You can chat with an AI, browse a library of classical texts, sort conversations into collections and pay for a plan. Every answer has to show where it came from, so the chat handles a lot more than plain text.
 
 ## What I built
 
