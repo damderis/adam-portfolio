@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+const { title = 'Adam Idris — Software for everyday work', description = 'Full-stack product engineer in Johor, Malaysia. Selected operational systems and independent products by Adam Idris.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ddd9ce" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      // Set the theme before first paint: saved choice, else the system setting.
+      (() => {
+        let theme;
+        try { theme = localStorage.getItem('theme'); } catch {}
+        if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/">Adam Idris<span aria-hidden="true">.</span></a>
+      <nav aria-label="Site">
+        <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+          <span class="theme-icon theme-icon-moon"><Icon name="bi-moon-stars" /></span>
+          <span class="theme-icon theme-icon-sun"><Icon name="bi-sun" /></span>
+        </button>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <p>Built for the everyday.</p>
+      <span>Adam Idris · Johor, Malaysia</span>
+      <span class="footer-links">
+        <a class="icon-link" href="https://github.com/damderis" target="_blank" rel="noopener noreferrer"><Icon name="bi-github" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="icon-link" href="https://www.linkedin.com/in/adam-idris-650b33306" target="_blank" rel="noopener noreferrer"><Icon name="bi-linkedin" />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="icon-link" href="/Adam_Idris_Resume_2026.pdf" download><Icon name="bi-file-earmark-pdf" />Resume (PDF)</a>
+      </span>
+      <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
+    </footer>
+    <script>
+      // Theme toggle. Light→dark: the old (light) view closes from the edges into the centre.
+      // Dark→light: the new (light) view opens from the centre outwards. Instant without View Transitions
+      // or with reduced motion.
+      const root = document.documentElement;
+      const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
+      const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')!;
+      const sync = () => {
+        const dark = root.dataset.theme === 'dark';
+        toggle.setAttribute('aria-pressed', String(dark));
+        meta.content = dark ? '#121618' : '#ddd9ce';
+      };
+      sync();
+      toggle.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        const apply = () => {
+          root.dataset.theme = next;
+          try { localStorage.setItem('theme', next); } catch {}
+          sync();
+        };
+        if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
+        const x = innerWidth / 2, y = innerHeight / 2;
+        const full = `circle(${Math.hypot(x, y)}px at ${x}px ${y}px)`, none = `circle(0px at ${x}px ${y}px)`;
+        root.dataset.themeSwitch = next;
+        const transition = document.startViewTransition(apply);
+        transition.ready.then(() => {
+          const options = { duration: 700, easing: 'cubic-bezier(.4, 0, .2, 1)' };
+          if (next === 'dark') root.animate({ clipPath: [full, none] }, { ...options, pseudoElement: '::view-transition-old(root)' });
+          else root.animate({ clipPath: [none, full] }, { ...options, pseudoElement: '::view-transition-new(root)' });
+        });
+        transition.finished.finally(() => { delete root.dataset.themeSwitch; });
+      });
+    </script>
+  </body>
+</html>

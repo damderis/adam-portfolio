@@ -1,0 +1,49 @@
+---
+import Base from './Base.astro';
+import FlowDiagram from '../components/FlowDiagram.astro';
+import { groups } from '../data/winwin.js';
+const { frontmatter: f } = Astro.props;
+// Previous/next run through every ERP case study in the order of the WinWin page.
+const order = groups.flatMap(g => g.items).filter(i => i.slug);
+const i = order.findIndex(item => item.slug === f.slug);
+const previous = order[(i - 1 + order.length) % order.length];
+const next = order[(i + 1) % order.length];
+const glance = [['Problem', f.problem], ['My part', f.role], ['The hard part', f.hard]];
+---
+<Base title={`${f.title} — Adam Idris`} description={f.deck}>
+  <article class="case">
+    <div class="wrap">
+      <a class="back-link" href="/work/winwin/"><span aria-hidden="true">←</span> More from WinWin</a>
+      <header class="case-header">
+        <p class="eyebrow">ERP system · {f.group}</p>
+        <h1>{f.title}</h1>
+        <p class="case-deck">{f.deck}</p>
+        <dl class="case-meta">
+          <div><dt>Context</dt><dd>WinWin Food Industries Sdn Bhd, 2026</dd></div>
+          <div><dt>Built with</dt><dd>{f.stack}</dd></div>
+        </dl>
+      </header>
+
+      <section class="glance" aria-label="At a glance">
+        {glance.map(([label, text]) => <div><h2 class="label">{label}</h2><p>{text}</p></div>)}
+      </section>
+
+      {f.flow && <div class="case-flow"><FlowDiagram steps={f.flow} /></div>}
+
+      <div class="case-body">
+        {f.notes && (
+          <aside class="margin-notes" aria-labelledby="notes-title">
+            <h2 class="label" id="notes-title">Key decisions</h2>
+            <ul>{f.notes.map(note => <li>{note}</li>)}</ul>
+          </aside>
+        )}
+        <div class="case-content"><slot /></div>
+      </div>
+
+      <nav class="next-project" aria-label="More ERP case studies">
+        <a href={`/work/winwin/${previous.slug}/`}><span class="label">Previous</span><span class="next-name"><span aria-hidden="true">←</span> {previous.name}</span></a>
+        <a href={`/work/winwin/${next.slug}/`}><span class="label">Next</span><span class="next-name">{next.name} <span aria-hidden="true">→</span></span></a>
+      </nav>
+    </div>
+  </article>
+</Base>

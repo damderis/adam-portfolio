@@ -1,0 +1,96 @@
+---
+import { getImage } from 'astro:assets';
+import Base from './Base.astro';
+import FlowDiagram from '../components/FlowDiagram.astro';
+import Gallery from '../components/Gallery.astro';
+import { projects } from '../data/projects.js';
+import { shotsFor } from '../data/images.js';
+const { frontmatter } = Astro.props;
+const i = projects.findIndex(p => p.slug === frontmatter.slug);
+const project = projects[i];
+const previous = projects[(i - 1 + projects.length) % projects.length];
+const next = projects[(i + 1) % projects.length];
+const shots = shotsFor(project.slug);
+
+// Art direction: phones get the real 390px mobile capture instead of a shrunken desktop page.
+const figure = async (desktop, mobile, alt, caption) => desktop && {
+  alt, caption,
+  desktop: await getImage({ src: desktop, widths: [800, 1440], sizes: '(min-width: 1440px) 1300px, 92vw', format: 'webp' }),
+  mobile: mobile && await getImage({ src: mobile, widths: [390, 780], sizes: '92vw', format: 'webp' }),
+};
+const figures = (await Promise.all([
+  figure(shots.desktop, shots.mobile, project.shots?.desktop, frontmatter.caption),
+  figure(shots.desktopDetail, shots.mobileDetail, frontmatter.detailAlt ?? `${project.name}: a deeper view of the public product flow`, frontmatter.detailCaption ?? 'A deeper view from the public product flow.'),
+])).filter(Boolean);
+const glance = [['Problem', frontmatter.problem], ['My part', frontmatter.role], ['The hard part', frontmatter.hard]];
+const captions = frontmatter.gallery ?? [];
+const gallery = [...shots.gallery, ...shots.phones];
+// Phone-only apps have no wide capture, so their screens take the lead image's place.
+const phonesFirst = !figures.length && gallery.length > 0 && gallery.every(g => g.height > g.width);
+---
+<Base title={`${project.name} — Adam Idris`} description={project.detail}>
+  <article class="case">
+    <div class="wrap">
+      <a class="back-link" href={`/#page-${project.slug}`}><span aria-hidden="true">←</span> Back to {project.name} in the workbook</a>
+      <header class="case-header">
+        <p class="eyebrow">{project.number} / {project.kind}</p>
+        <h1>{project.name}</h1>
+        <p class="case-deck">{project.summary}</p>
+        <dl class="case-meta">
+          <div><dt>Context</dt><dd>{frontmatter.context}</dd></div>
+          <div><dt>Built with</dt><dd>{project.stack}</dd></div>
+          {project.link && <div><dt>Live</dt><dd><a class="text-link" href={project.link} target="_blank" rel="noopener noreferrer">{project.link.replace('https://', '')} <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a></dd></div>}
+        </dl>
+      </header>
+
+      <section class="glance" aria-label="At a glance">
+        {glance.map(([label, text]) => <div><h2 class="label">{label}</h2><p>{text}</p></div>)}
+      </section>
+
+      {project.kind === 'ERP system' && <p class="more-link"><a class="text-link" href="/work/winwin/">More ERP work at WinWin <span aria-hidden="true">→</span></a></p>}
+
+      {project.flow && <div class="case-flow"><FlowDiagram steps={project.flow} /></div>}
+
+      {phonesFirst && <Gallery images={gallery} captions={captions} name={project.name} />}
+
+      {figures.slice(0, 1).map(f => (
+        <figure class="case-image">
+          <picture>
+            {f.mobile && <source media="(max-width: 699px)" srcset={f.mobile.srcSet.attribute} sizes={f.mobile.attributes.sizes} />}
+            <source srcset={f.desktop.srcSet.attribute} sizes={f.desktop.attributes.sizes} />
+            <img src={f.desktop.src} alt={f.alt} width={f.desktop.attributes.width} height={f.desktop.attributes.height} loading="lazy" decoding="async" />
+          </picture>
+          {f.caption && <figcaption>{f.caption}</figcaption>}
+        </figure>
+      ))}
+
+      <div class="case-body">
+        {frontmatter.notes && (
+          <aside class="margin-notes" aria-labelledby="notes-title">
+            <h2 class="label" id="notes-title">Key decisions</h2>
+            <ul>{frontmatter.notes.map(note => <li>{note}</li>)}</ul>
+          </aside>
+        )}
+        <div class="case-content"><slot /></div>
+      </div>
+
+      {figures.slice(1).map(f => (
+        <figure class="case-image">
+          <picture>
+            {f.mobile && <source media="(max-width: 699px)" srcset={f.mobile.srcSet.attribute} sizes={f.mobile.attributes.sizes} />}
+            <source srcset={f.desktop.srcSet.attribute} sizes={f.desktop.attributes.sizes} />
+            <img src={f.desktop.src} alt={f.alt} width={f.desktop.attributes.width} height={f.desktop.attributes.height} loading="lazy" decoding="async" />
+          </picture>
+          {f.caption && <figcaption>{f.caption}</figcaption>}
+        </figure>
+      ))}
+
+      {gallery.length > 0 && !phonesFirst && <Gallery images={gallery} captions={captions} name={project.name} />}
+
+      <nav class="next-project" aria-label="More case studies">
+        <a href={`/work/${previous.slug}/`}><span class="label">Previous</span><span class="next-name"><span aria-hidden="true">←</span> {previous.name}</span></a>
+        <a href={`/work/${next.slug}/`}><span class="label">Next</span><span class="next-name">{next.name} <span aria-hidden="true">→</span></span></a>
+      </nav>
+    </div>
+  </article>
+</Base>

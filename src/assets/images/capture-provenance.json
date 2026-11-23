@@ -1,0 +1,250 @@
+[
+  {
+    "file": "public/images/bokkeh-desktop.png",
+    "detailFile": "public/images/bokkeh-desktop-detail.png",
+    "requestedURL": "https://bokkeh.app",
+    "homepageURL": "https://bokkeh.app/",
+    "finalURL": "https://bokkeh.app/bokkeh/bokkeh-studio/book",
+    "capturedAt": "2026-11-23T01:44:44.733Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 1000
+    },
+    "purpose": "Demo vendor booking: real public service selection, durations and pricing. No booking submitted or customer data entered.",
+    "interaction": "Homepage → Explore Vendors → labeled demo Bokkeh Studio → Book a Session. Booking panel is intentional product UI, not an overlay removed for capture.",
+    "preparation": "Fresh anonymous context; homepage captured before deeper public flow; network idle; fonts ready; visible images decoded; reduced motion; entrance transitions settled. No overlays dismissed, DOM content changed, authentication or form submission.",
+    "publicLinksExplored": [
+      {
+        "text": "Explore Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "Explore Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "Explore Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "See How It Works",
+        "href": "/docs"
+      },
+      {
+        "text": "Browse Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "Documentation",
+        "href": "/docs"
+      }
+    ],
+    "review": "Homepage asset is the primary image; detail asset follows it in case-study content."
+  },
+  {
+    "file": "public/images/bokkeh-mobile.png",
+    "detailFile": "public/images/bokkeh-mobile-detail.png",
+    "requestedURL": "https://bokkeh.app",
+    "homepageURL": "https://bokkeh.app/",
+    "finalURL": "https://bokkeh.app/bokkeh/bokkeh-studio/book",
+    "capturedAt": "2026-11-23T01:44:56.033Z",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844
+    },
+    "purpose": "Demo vendor booking: real public service selection, durations and pricing. No booking submitted or customer data entered.",
+    "interaction": "Homepage → Explore Vendors → labeled demo Bokkeh Studio → Book a Session. Booking panel is intentional product UI, not an overlay removed for capture.",
+    "preparation": "Fresh anonymous context; homepage captured before deeper public flow; network idle; fonts ready; visible images decoded; reduced motion; entrance transitions settled. No overlays dismissed, DOM content changed, authentication or form submission.",
+    "publicLinksExplored": [
+      {
+        "text": "Explore Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "Explore Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "Explore Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "See How It Works",
+        "href": "/docs"
+      },
+      {
+        "text": "Browse Vendors",
+        "href": "/explore"
+      },
+      {
+        "text": "Documentation",
+        "href": "/docs"
+      }
+    ],
+    "review": "Homepage asset is the primary image; detail asset follows it in case-study content."
+  },
+  {
+    "file": "public/images/momenloka-desktop.png",
+    "detailFile": "public/images/momenloka-desktop-detail.png",
+    "requestedURL": "https://momenloka.com",
+    "homepageURL": "https://momenloka.com/",
+    "finalURL": "https://momenloka.com/templates/engagement-ikatan-keluarga/preview",
+    "capturedAt": "2026-11-23T01:45:12.014Z",
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 1440,
+      "height": 1000
+    },
+    "purpose": "Actual public Ikatan Keluarga invitation template with illustrative names, artwork and event details; no live guest invitation or RSVP records.",
+    "interaction": "Explored homepage below hero and followed its public invitation template preview link. Invitation cover is the product, retained as displayed.",
+    "preparation": "Fresh anonymous context; homepage captured before deeper public flow; network idle; fonts ready; visible images decoded; reduced motion; entrance transitions settled. No overlays dismissed, DOM content changed, authentication or form submission.",
+    "publicLinksExplored": [
+      {
+        "text": "Templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Lihat templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Buka Ikatan Keluarga",
+        "href": "/templates/engagement-ikatan-keluarga/preview"
+      },
+      {
+        "text": "Nikah",
+        "href": "/templates"
+      },
+      {
+        "text": "Sanding",
+        "href": "/templates"
+      },
+      {
+        "text": "Pertunangan",
+        "href": "/templates"
+      },
+      {
+        "text": "Aqiqah",
+        "href": "/templates"
+      },
+      {
+        "text": "Hari Jadi",
+        "href": "/templates"
+      },
+      {
+        "text": "Rumah Terbuka",
+        "href": "/templates"
+      },
+      {
+        "text": "Lihat semua templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Templat",
+        "href": "/templates"
+      }
+    ],
+    "review": "Homepage asset is the primary image; detail asset follows it in case-study content."
+  },
+  {
+    "file": "public/images/momenloka-mobile.png",
+    "detailFile": "public/images/momenloka-mobile-detail.png",
+    "requestedURL": "https://momenloka.com",
+    "homepageURL": "https://momenloka.com/",
+    "finalURL": "https://momenloka.com/templates/engagement-ikatan-keluarga/preview",
+    "capturedAt": "2026-11-23T01:45:22.315Z",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "crop": {
+      "x": 0,
+      "y": 0,
+      "width": 390,
+      "height": 844
+    },
+    "purpose": "Actual public Ikatan Keluarga invitation template with illustrative names, artwork and event details; no live guest invitation or RSVP records.",
+    "interaction": "Explored homepage below hero and followed its public invitation template preview link. Invitation cover is the product, retained as displayed.",
+    "preparation": "Fresh anonymous context; homepage captured before deeper public flow; network idle; fonts ready; visible images decoded; reduced motion; entrance transitions settled. No overlays dismissed, DOM content changed, authentication or form submission.",
+    "publicLinksExplored": [
+      {
+        "text": "Templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Lihat templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Buka Ikatan Keluarga",
+        "href": "/templates/engagement-ikatan-keluarga/preview"
+      },
+      {
+        "text": "Nikah",
+        "href": "/templates"
+      },
+      {
+        "text": "Sanding",
+        "href": "/templates"
+      },
+      {
+        "text": "Pertunangan",
+        "href": "/templates"
+      },
+      {
+        "text": "Aqiqah",
+        "href": "/templates"
+      },
+      {
+        "text": "Hari Jadi",
+        "href": "/templates"
+      },
+      {
+        "text": "Rumah Terbuka",
+        "href": "/templates"
+      },
+      {
+        "text": "Lihat semua templat",
+        "href": "/templates"
+      },
+      {
+        "text": "Templat",
+        "href": "/templates"
+      }
+    ],
+    "review": "Homepage asset is the primary image; detail asset follows it in case-study content."
+  }
+]

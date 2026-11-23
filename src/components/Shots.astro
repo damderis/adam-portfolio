@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import { shotsFor } from '../data/images.js';
+const { project } = Astro.props;
+const shots = shotsFor(project.slug);
+---
+{!shots.desktop && shots.phones.length ? (
+  <div class="shots shots-phones">
+    {shots.phones.slice(0, 3).map((image, i) => (
+      <figure class="shot shot-phone">
+        <Image src={image} alt={`${project.name} on a phone, screen ${i + 1}`} widths={[240, 480]} sizes="(min-width: 1001px) 10vw, 30vw" loading="lazy" />
+      </figure>
+    ))}
+  </div>
+) : shots.mobile ? (
+  <div class="shots">
+    <figure class="shot shot-desktop">
+      <Image src={shots.desktop} alt={project.shots.desktop} widths={[480, 960]} sizes="(min-width: 1001px) 30vw, 60vw" loading="lazy" />
+      <figcaption>Desktop</figcaption>
+    </figure>
+    <figure class="shot shot-mobile">
+      <Image src={shots.mobile} alt={project.shots.mobile} widths={[300, 600]} sizes="(min-width: 1001px) 12vw, (min-width: 700px) 30vw, 280px" loading="lazy" />
+      <figcaption>Phone</figcaption>
+    </figure>
+  </div>
+) : (
+  <figure class="shot shot-wide">
+    <Image src={shots.desktop} alt={project.shots.desktop} widths={[640, 1280]} sizes="(min-width: 1001px) 40vw, 92vw" loading="lazy" />
+    <figcaption>{project.shots.caption ?? 'Android Auto simulator'}</figcaption>
+  </figure>
+)}

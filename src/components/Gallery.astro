@@ -1,0 +1,14 @@
+---
+import { Image } from 'astro:assets';
+const { images, captions = [], name } = Astro.props;
+const tall = images.filter(g => g.height > g.width).length;
+const layout = tall === images.length ? 'phones' : tall ? 'mixed' : '';
+---
+<section class:list={['case-gallery', layout]} aria-label={`More from ${name}`}>
+  {images.map((image, i) => (
+    <figure class:list={['case-gallery-item', { phone: image.height > image.width }]}>
+      <Image src={image} alt={captions[i] ?? `${name} screen ${i + 1}`} widths={[480, 960]} sizes={layout === 'phones' ? '(min-width: 700px) 280px, 72vw' : '(min-width: 900px) 45vw, 92vw'} loading="lazy" />
+      {captions[i] && <figcaption>{captions[i]}</figcaption>}
+    </figure>
+  ))}
+</section>

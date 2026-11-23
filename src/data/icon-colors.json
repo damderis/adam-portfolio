@@ -1,0 +1,23 @@
+{
+ "si-docker": "#2496ED",
+ "si-ubuntu": "#E95420",
+ "si-nginx": "#009639",
+ "si-githubactions": "#2088FF",
+ "si-digitalocean": "#0080FF",
+ "si-cloudflare": "#F38020",
+ "si-claude": "#D97757",
+ "si-openai": "#412991",
+ "si-python": "#3776AB",
+ "si-frappe": "#0089FF",
+ "si-mariadb": "#003545",
+ "si-postgresql": "#4169E1",
+ "si-redis": "#FF4438",
+ "si-typescript": "#3178C6",
+ "si-react": "#61DAFB",
+ "si-vuedotjs": "#4FC08D",
+ "si-expo": "#000020",
+ "si-android": "#34A853",
+ "systemd": "#30D475",
+ "Playwright": "#2EAD33",
+ "Convex": "#EE342F"
+}

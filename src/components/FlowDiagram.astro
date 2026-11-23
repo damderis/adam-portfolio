@@ -1,0 +1,15 @@
+---
+const { steps, label = 'How it works' } = Astro.props;
+---
+<figure class="flow">
+  <figcaption class="eyebrow">{label}</figcaption>
+  <ol>
+    {steps.map((step, i) => (
+      <li>
+        <span class="flow-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <p class="flow-title">{step.title}</p>
+        <p class="flow-note">{step.note}</p>
+      </li>
+    ))}
+  </ol>
+</figure>
