@@ -53,9 +53,10 @@ const { title = 'Adam Idris — Software for everyday work', description = 'Full
       <a href="#main">Back to top <span aria-hidden="true">↑</span></a>
     </footer>
     <script>
-      // Theme toggle. Light→dark: the old (light) view closes from the edges into the centre.
-      // Dark→light: the new (light) view opens from the centre outwards. Instant without View Transitions
-      // or with reduced motion.
+      // Theme toggle. In both directions the old view stays on top and only its clip moves, so both
+      // themes' content is visible the whole time. Light→dark: the old view shrinks into the centre.
+      // Dark→light: a hole opens in the old view from the centre outwards. Instant without View
+      // Transitions or with reduced motion.
       const root = document.documentElement;
       const toggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!;
       const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')!;
@@ -65,25 +66,32 @@ const { title = 'Adam Idris — Software for everyday work', description = 'Full
         meta.content = dark ? '#121618' : '#ddd9ce';
       };
       sync();
-      toggle.addEventListener('click', () => {
-        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      // A click during a switch is remembered, not started on top of it: starting a new view transition
+      // cancels the running one mid-circle, which is the stutter. When a switch ends, the next one runs.
+      let wanted = root.dataset.theme, busy = false;
+      const run = () => {
+        const next = wanted;
+        if (busy || next === root.dataset.theme) return;
         const apply = () => {
           root.dataset.theme = next;
           try { localStorage.setItem('theme', next); } catch {}
           sync();
         };
         if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return apply();
-        const x = innerWidth / 2, y = innerHeight / 2;
-        const full = `circle(${Math.hypot(x, y)}px at ${x}px ${y}px)`, none = `circle(0px at ${x}px ${y}px)`;
-        root.dataset.themeSwitch = next;
+        busy = true;
+        const w = innerWidth, h = innerHeight, x = w / 2, y = h / 2, r = Math.hypot(x, y);
+        const circle = (radius: number) => `circle(${radius}px at ${x}px ${y}px)`;
+        // The whole screen minus a circle of this radius (even-odd fill turns the circle into a hole).
+        const hole = (radius: number) => `path(evenodd, "M0 0H${w}V${h}H0Z M${x - radius} ${y}a${radius} ${radius} 0 1 0 ${2 * radius} 0a${radius} ${radius} 0 1 0 ${-2 * radius} 0Z")`;
         const transition = document.startViewTransition(apply);
         transition.ready.then(() => {
-          const options = { duration: 700, easing: 'cubic-bezier(.4, 0, .2, 1)' };
-          if (next === 'dark') root.animate({ clipPath: [full, none] }, { ...options, pseudoElement: '::view-transition-old(root)' });
-          else root.animate({ clipPath: [none, full] }, { ...options, pseudoElement: '::view-transition-new(root)' });
+          // fill: 'forwards' holds the last frame; without it the old view pops back for a frame before the transition ends.
+          const options = { duration: 700, easing: 'cubic-bezier(.4, 0, .2, 1)', fill: 'forwards' as FillMode, pseudoElement: '::view-transition-old(root)' };
+          root.animate({ clipPath: next === 'dark' ? [circle(r), circle(0)] : [hole(.01), hole(r)] }, options);
         });
-        transition.finished.finally(() => { delete root.dataset.themeSwitch; });
-      });
+        transition.finished.finally(() => { busy = false; run(); });
+      };
+      toggle.addEventListener('click', () => { wanted = wanted === 'dark' ? 'light' : 'dark'; run(); });
 
       // Page-turn sound, off by default. A paper flick made from filtered noise, so there is no audio file to load.
       const soundToggle = document.querySelector<HTMLButtonElement>('.sound-toggle');

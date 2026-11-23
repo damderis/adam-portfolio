@@ -50,8 +50,8 @@
 }
 /* Theme switch: a circle closing to (light→dark) or opening from (dark→light) the centre. */
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-:root[data-theme-switch="dark"]::view-transition-old(root) { z-index: 2; }
-:root[data-theme-switch="light"]::view-transition-new(root) { z-index: 2; }
+/* The old view stays on top in both directions; the toggle script animates its clip. */
+::view-transition-old(root) { z-index: 2; }
 .theme-toggle, .term-toggle, .sound-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; margin-left: 6px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; }
 .theme-toggle:hover, .term-toggle:hover, .sound-toggle:hover { border-color: var(--blue); color: var(--blue); }
 .term-toggle .icon, .sound-icon .icon { width: 18px; height: 18px; }
