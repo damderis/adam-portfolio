@@ -79,7 +79,7 @@ export const projects = [
     slug: 'driveboard', name: 'DriveBoard', kind: 'Personal exploration', stamp: 'Side quest',
     summary: 'A car dashboard built around my own daily drive.',
     detail: 'An Android Auto screen for my own car: music, weather, prayer times and Quran, in layouts I can rearrange.',
-    hard: 'Designing for a car screen, where layout, button size and the phone-to-head-unit link all decide what works.',
+    hard: 'Android Auto picks the layout by app category, so a live map beside the board took a second car app.',
     stack: 'Java · Android car-app library · Gradle',
     shots: { desktop: 'DriveBoard in the Android Auto simulator: clock, next prayer time with all five times, a song playing with album art and controls, and weather' },
     note: 'next prayer time, always in view',

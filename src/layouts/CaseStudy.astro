@@ -27,6 +27,10 @@ const captions = frontmatter.gallery ?? [];
 const gallery = [...shots.gallery, ...shots.phones];
 // Phone-only apps have no wide capture, so their screens take the lead image's place.
 const phonesFirst = !figures.length && gallery.length > 0 && gallery.every(g => g.height > g.width);
+const tall = g => g.height > g.width;
+const wideShots = gallery.map((g, i) => [g, captions[i]]).filter(([g]) => !tall(g));
+const tallShots = gallery.map((g, i) => [g, captions[i]]).filter(([g]) => tall(g));
+const mixed = wideShots.length > 0 && tallShots.length > 0;
 ---
 <Base title={`${project.name} — Adam Idris`} description={project.detail}>
   <article class="case">
@@ -86,7 +90,15 @@ const phonesFirst = !figures.length && gallery.length > 0 && gallery.every(g => 
         </figure>
       ))}
 
-      {gallery.length > 0 && !phonesFirst && <Gallery images={gallery} captions={captions} name={project.name} />}
+      {gallery.length > 0 && !phonesFirst && !mixed && <Gallery images={gallery} captions={captions} name={project.name} />}
+      {mixed && (
+        <>
+          <h2 class="label gallery-label">On the car screen</h2>
+          <Gallery images={wideShots.map(([g]) => g)} captions={wideShots.map(([, c]) => c)} name={project.name} label={`${project.name} on the car screen`} />
+          <h2 class="label gallery-label">On the phone</h2>
+          <Gallery images={tallShots.map(([g]) => g)} captions={tallShots.map(([, c]) => c)} name={project.name} label={`${project.name} on the phone`} />
+        </>
+      )}
 
       <nav class="next-project" aria-label="More case studies">
         <a href={`/work/${previous.slug}/`}><span class="label">Previous</span><span class="next-name"><span aria-hidden="true">←</span> {previous.name}</span></a>

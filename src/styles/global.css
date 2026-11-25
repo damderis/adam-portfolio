@@ -509,13 +509,8 @@ button { font: inherit; color: inherit; }
   .case-gallery.phones { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 72%; justify-content: start; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
   .case-gallery.phones .phone { scroll-snap-align: center; }
 }
-/* One phone beside wide screens: the phone runs down the left of the first three, the rest pair up below. */
-@media (min-width: 900px) {
-  .case-gallery.mixed { grid-template-columns: repeat(12, minmax(0, 1fr)); }
-  .case-gallery.mixed .case-gallery-item { grid-column: span 6; }
-  .case-gallery.mixed .case-gallery-item:not(.phone):nth-child(-n+3) { grid-column: 6 / -1; }
-  .case-gallery.mixed .phone { grid-column: 1 / span 5; grid-row: 1 / span 3; max-width: none; align-self: center; }
-}
+.gallery-label { margin: 8px 0 18px; }
+.gallery-label + .case-gallery.phones { margin-top: 0; }
 .case-gallery-item figcaption { margin-top: 10px; font: italic 15px var(--display); color: var(--muted); }
 .shots-phones { justify-content: center; }
 .shot-phone { flex: 0 1 30%; }
